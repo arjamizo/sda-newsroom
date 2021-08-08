@@ -1,0 +1,22 @@
+name: Mirroring
+
+on: [push, delete]
+
+jobs:
+  to_heroku:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - run: |
+          mkdir ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+        shell: bash
+        env:
+          SSH_KEY: ${{secrets.HEROKU_SSH_PRIVATE_KEY}}
+      - name: push current branch to heroku
+        id: vars
+        shell: bash
+        run: |
+          export GIT_SSH_COMMAND="ssh -v -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -l git"
+          git push -f ${{ secrets.REPO_URL }} "$(git rev-parse --short HEAD):refs/heads/master"
