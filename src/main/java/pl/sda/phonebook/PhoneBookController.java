@@ -1,6 +1,8 @@
 package pl.sda.phonebook;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +15,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/phonebook")
 public class PhoneBookController {
+    @Autowired
+    PhoneBookRepository phonesDatabase;
+
     @GetMapping("")
     String index(final ModelMap modelMap) {
         modelMap.addAttribute("entries", new Object[] {new PhoneBookEntry()});
@@ -20,8 +25,7 @@ public class PhoneBookController {
     }
     @PostMapping("")
     String create(PhoneBookEntry entry, final ModelMap modelMap) {
-        List<PhoneBookEntry> phonesDatabase = new ArrayList<>();
-        phonesDatabase.add(entry);
+        phonesDatabase.list.add(entry);
         modelMap.addAttribute("entries", phonesDatabase);
         return "phonebook/index";
     }
