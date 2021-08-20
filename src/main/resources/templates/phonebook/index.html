@@ -19,9 +19,11 @@
   <h1>Dodaj kontakt</h1>
   <div>
     <label>Imię <input type="text" name="firstName" value="default name"></label>
+    <span th:if="${firstNameError}">[[${firstNameError}]]</span>
   </div>
   <div>
     <label>Nr tel. <input type="text" name="phoneNumber"></label>
+    <span th:if="${phoneNumberError}" th:text="${phoneNumberError}"></span>
   </div>
   <div>
     <button>Dodaj</button>

@@ -25,8 +25,20 @@ public class PhoneBookController {
     }
     @PostMapping("")
     String create(PhoneBookEntry entry, final ModelMap modelMap) {
-        phonesDatabase/*.findAll()*/.add(entry);
+
         modelMap.addAttribute("entries", phonesDatabase.findAll());
+        boolean hasError = false;
+        if(entry.firstName.length() < 3) {
+            modelMap.addAttribute("firstNameError", "imię jest zbyt krótkie");
+            hasError = true;
+        }
+        if(entry.phoneNumber.length() == 0) {
+            modelMap.addAttribute("phoneNumberError", "telefon nie jest");
+            hasError = true;
+        }
+        if (!hasError) {
+            phonesDatabase/*.findAll()*/.add(entry);
+        }
         return "phonebook/index";
     }
 }
