@@ -1,24 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>Quiz</title>
 </head>
 <body>
 <div>
-  <h1>Quiz kompetencyjny</h1>
+  <h1>Książka adresowa</h1>
   <ul>
-    <li>
-      <strong>Pytanie 1.</strong>
-      <span>Jak nazywa się xyz wspak?</span>
-      <ol type="a">
-        <li><label><input name="q1" type="radio">xyz</label></li>
-        <li><label><input name="q1" type="radio">zyx</label></li>
-        <li><label><input name="q1" type="radio">kajak</label></li>
-      </ol>
+    <li th:each="entry : ${entries}">
+      <strong>Kontakt</strong>
+      Imię, nr tel: <span th:text="${entry}"/>
     </li>
   </ul>
-  <button disabled>Wyślij</button>
 </div>
+<form method="POST" action="">
+  <h1>Dodaj kontakt</h1>
+  <div>
+    <label>Imię <input type="text" name="firstName"></label>
+  </div>
+  <div>
+    <label>Nr tel.<input type="text" name="phoneNumber"></label>
+  </div>
+  <div>
+    <button>Dodaj</button>
+  </div>
+</form>
 </body>
 </html>
