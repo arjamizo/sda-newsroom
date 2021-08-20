@@ -25,7 +25,7 @@ public class PhoneBookController {
     }
     @PostMapping("")
     String create(PhoneBookEntry entry, final ModelMap modelMap) {
-        phonesDatabase.findAll().add(entry);
+        phonesDatabase/*.findAll()*/.add(entry);
         modelMap.addAttribute("entries", phonesDatabase.findAll());
         return "phonebook/index";
     }

@@ -12,4 +12,8 @@ public class PhoneBookRepository
     List<PhoneBookEntry> findAll() {
         return this.list;
     }
+
+    public void add(PhoneBookEntry entry) {
+        this.list.add(entry);
+    }
 }
