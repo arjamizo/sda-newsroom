@@ -15,17 +15,13 @@ import java.util.List;
 public class PhoneBookController {
     @GetMapping("")
     String index(final ModelMap modelMap) {
-        modelMap.addAttribute("entries",
-                new Object[] {"Jan +123", "Janusz +321"});
+        modelMap.addAttribute("entries", new Object[] {new PhoneBookEntry()});
         return "phonebook/index";
     }
     @PostMapping("")
-    String create(@RequestParam("firstName") final String firstName,
-                  @RequestParam("phoneNumber") final String phoneNumber,
-                  final ModelMap modelMap) {
-        List<String> phonesDatabase = new ArrayList<>();
-        // phonesDatabase.add(firstName + " " + phoneNumber);
-        phonesDatabase.add(String.format("%s %s%n", firstName, phoneNumber));
+    String create(PhoneBookEntry entry, final ModelMap modelMap) {
+        List<PhoneBookEntry> phonesDatabase = new ArrayList<>();
+        phonesDatabase.add(entry);
         modelMap.addAttribute("entries", phonesDatabase);
         return "phonebook/index";
     }
