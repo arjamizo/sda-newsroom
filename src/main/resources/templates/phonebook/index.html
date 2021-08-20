@@ -15,18 +15,25 @@
     </li>
   </ul>
 </div>
-<form method="POST" action="" th:object="${form}">
+<form method="POST" th:action="@{/phonebook}" th:object="${form}">
   <h1>Dodaj kontakt</h1>
   <div>
-    <label>Imię <input type="text" name="firstName" value="default name"></label>
-    <span th:if="${firstNameError}">[[${firstNameError}]]</span>
+    <label>Imię <input type="text" th:field="*{firstName}" value="default name"></label>
+    <!--<span th:if="${firstNameError}">[[${firstNameError}]]</span>-->
+    <span th:if="${#fields.hasErrors('firstName')}" th:text="${#fields.errors('firstName')[0]}"/>
+    <!--
+    <ul th:if="${#fields.hasErrors('firstName')}">
+      <li th:each="err : ${#fields.errors('firstName')}" th:text="${err}">Input is incorrect</li>
+    </ul>
+    -->
   </div>
   <div>
-    <label>Nr tel. <input type="text" name="phoneNumber"></label>
-    <span th:if="${phoneNumberError}" th:text="${phoneNumberError}"></span>
+    <label>Nr tel. <input type="text" th:field="*{phoneNumber}"></label>
+    <!--<span th:if="${phoneNumberError}" th:text="${phoneNumberError}"></span>-->
+    <span th:if="${#fields.hasErrors('phoneNumber')}" th:text="${#fields.errors('phoneNumber')[0]}"/>
   </div>
   <div>
-    <button>Dodaj</button>
+    <button type="submit">Dodaj</button>
   </div>
 </form>
 </body>

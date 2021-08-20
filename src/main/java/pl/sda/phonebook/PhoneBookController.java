@@ -1,13 +1,14 @@
 package pl.sda.phonebook;
 
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.spring5.expression.Fields;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,24 +22,23 @@ public class PhoneBookController {
     @GetMapping("")
     String index(final ModelMap modelMap) {
         modelMap.addAttribute("entries", phonesDatabase.findAll());
+        modelMap.addAttribute("form", new PhoneBookEntry());
         return "phonebook/index";
     }
     @PostMapping("")
-    String create(PhoneBookEntry entry, final ModelMap modelMap) {
-
+    @SneakyThrows
+    public String create(@javax.validation.Valid @ModelAttribute("form") PhoneBookEntry entry, final BindingResult errors, final ModelMap modelMap) {
+        // javax.validation.ValidatorFactory factory = javax.validation.Validation.buildDefaultValidatorFactory();
+        // javax.validation.Validator validator = factory.getValidator();
+        // System.out.println(validator.validate(entry));
+        if (!errors.hasErrors()) {
+            phonesDatabase.add(entry);
+            modelMap.addAttribute("form", new PhoneBookEntry());
+        } else {
+            System.out.println(errors);
+            modelMap.addAttribute("form", entry);
+        }
         modelMap.addAttribute("entries", phonesDatabase.findAll());
-        boolean hasError = false;
-        if(entry.firstName.length() < 3) {
-            modelMap.addAttribute("firstNameError", "imię jest zbyt krótkie");
-            hasError = true;
-        }
-        if(entry.phoneNumber.length() == 0) {
-            modelMap.addAttribute("phoneNumberError", "telefon nie jest");
-            hasError = true;
-        }
-        if (!hasError) {
-            phonesDatabase/*.findAll()*/.add(entry);
-        }
         return "phonebook/index";
     }
 }
