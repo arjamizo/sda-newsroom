@@ -20,13 +20,13 @@ public class PhoneBookController {
 
     @GetMapping("")
     String index(final ModelMap modelMap) {
-        modelMap.addAttribute("entries", new Object[] {new PhoneBookEntry()});
+        modelMap.addAttribute("entries", phonesDatabase.list);
         return "phonebook/index";
     }
     @PostMapping("")
     String create(PhoneBookEntry entry, final ModelMap modelMap) {
         phonesDatabase.list.add(entry);
-        modelMap.addAttribute("entries", phonesDatabase);
+        modelMap.addAttribute("entries", phonesDatabase.list);
         return "phonebook/index";
     }
 }
