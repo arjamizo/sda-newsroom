@@ -23,11 +23,21 @@ public class PhoneBookController {
     String index(final ModelMap modelMap) {
         modelMap.addAttribute("entries", phonesDatabase.findAll());
         modelMap.addAttribute("form", new PhoneBookEntry());
+        modelMap.addAttribute("isAuth", this.getIsAuth());
         return "phonebook/index";
     }
+
+    private boolean getIsAuth() {
+        boolean isAuth = org.springframework.security.core.context.SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal()
+                instanceof org.springframework.security.core.userdetails.UserDetails;
+        return isAuth;
+    }
+
     @PostMapping("")
     @SneakyThrows
     public String create(@javax.validation.Valid @ModelAttribute("form") PhoneBookEntry entry, final BindingResult errors, final ModelMap modelMap) {
+        modelMap.addAttribute("isAuth", this.getIsAuth());
         // javax.validation.ValidatorFactory factory = javax.validation.Validation.buildDefaultValidatorFactory();
         // javax.validation.Validator validator = factory.getValidator();
         // System.out.println(validator.validate(entry));

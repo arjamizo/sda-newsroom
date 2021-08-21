@@ -33,7 +33,8 @@
     <span th:if="${#fields.hasErrors('phoneNumber')}" th:text="${#fields.errors('phoneNumber')[0]}"/>
   </div>
   <div>
-    <button type="submit">Dodaj</button>
+    <button type="submit" th:attr="disabled=${!isAuth}?'disabled'">Dodaj</button>
+    <a href="/logout" th:if="${isAuth}">Wyloguj</a>
   </div>
 </form>
 </body>
