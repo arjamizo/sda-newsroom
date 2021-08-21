@@ -20,13 +20,25 @@ public class PhoneBookController {
 
     @GetMapping("")
     String index(final ModelMap modelMap) {
-        modelMap.addAttribute("entries", phonesDatabase.list);
+        modelMap.addAttribute("entries", phonesDatabase.findAll());
         return "phonebook/index";
     }
     @PostMapping("")
     String create(PhoneBookEntry entry, final ModelMap modelMap) {
-        phonesDatabase.list.add(entry);
-        modelMap.addAttribute("entries", phonesDatabase.list);
+
+        modelMap.addAttribute("entries", phonesDatabase.findAll());
+        boolean hasError = false;
+        if(entry.firstName.length() < 3) {
+            modelMap.addAttribute("firstNameError", "imię jest zbyt krótkie");
+            hasError = true;
+        }
+        if(entry.phoneNumber.length() == 0) {
+            modelMap.addAttribute("phoneNumberError", "telefon nie jest");
+            hasError = true;
+        }
+        if (!hasError) {
+            phonesDatabase/*.findAll()*/.add(entry);
+        }
         return "phonebook/index";
     }
 }
