@@ -24,5 +24,10 @@ public class QuestionsDatabase {
             // "Could not resolve parameter [0] in java.lang.Error...: no suitable resolver?\n\n",
             "Czy kolejność umieszczenia BindingResult (Erorrs) ma znaczenie?\ntak\nnie",
             "Czy nazwa argumentu metody kontrolera POST musi miec nazwe arg. zgodna z th:object w celu walidacji Errors/BindinResult?\ntak\nnie",
+            "Dlaczego lepiej DAO oznaczac adnotacja @Repository zamiast @Component?\nobsluga rzucania wyjatkow sie rozni\nto to samo",
+            "Repozytoria to?\ninterfejsy\nklasy implementujace interfejs",
+            "Mockowane repozytorium może być:\n@Component-em z odpowiednimi metodami\nklasa bez adnotacji z odpowiednimi metodami",
+            "Jak latwo wypelnic DB danymi?\ndodac @Profile('dev') @Component CommandLineRunner wykonujacy\ndopisac do main",
+            "Jaka jest zaleta, aby WebSecurityConfigurerAdapter bylo w osobnej klasie @Configuration a nie np. czescia glonwej klasy?\nwariantowanie warunkowe np. @Profile\nmozna bez wahania dodac do SpringBootApp"
     }));
 }
