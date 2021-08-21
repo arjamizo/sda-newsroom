@@ -9,18 +9,19 @@
   <h1>Książka adresowa</h1>
   <ul>
     <li th:each="entry : ${entries}">
-      <strong>Kontakt</strong>
-      Imię, nr tel: <span th:text="${entry}"/>
+      <div><strong>Kontakt</strong></div>
+      <div>imię: <span th:text="${entry.firstName}"/></div>
+      <div>nr tel: <span th:text="${entry.phoneNumber}"/></div>
     </li>
   </ul>
 </div>
-<form method="POST" action="">
+<form method="POST" action="" th:object="${form}">
   <h1>Dodaj kontakt</h1>
   <div>
-    <label>Imię <input type="text" name="firstName"></label>
+    <label>Imię <input type="text" name="firstName" value="default name"></label>
   </div>
   <div>
-    <label>Nr tel.<input type="text" name="phoneNumber"></label>
+    <label>Nr tel. <input type="text" name="phoneNumber"></label>
   </div>
   <div>
     <button>Dodaj</button>
