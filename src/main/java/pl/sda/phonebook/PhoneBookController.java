@@ -2,28 +2,26 @@ package pl.sda.phonebook;
 
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-import org.thymeleaf.spring5.expression.Fields;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/phonebook")
 public class PhoneBookController {
     @Autowired
-    PhoneBookRepository phonesDatabase;
+    PhoneBookRepository repository;
 
     @GetMapping("")
-    String index(final ModelMap modelMap) {
-        modelMap.addAttribute("entries", phonesDatabase.findAll());
+    String index(final ModelMap modelMap, @AuthenticationPrincipal Principal user) {
+        modelMap.addAttribute("entries", repository.findAll());
         modelMap.addAttribute("form", new PhoneBookEntry());
         modelMap.addAttribute("isAuth", this.getIsAuth());
+        fillModel(modelMap, user);
         return "phonebook/index";
     }
 
@@ -36,19 +34,26 @@ public class PhoneBookController {
 
     @PostMapping("")
     @SneakyThrows
-    public String create(@javax.validation.Valid @ModelAttribute("form") PhoneBookEntry entry, final BindingResult errors, final ModelMap modelMap) {
+    public String create(@javax.validation.Valid @ModelAttribute("form") PhoneBookEntry entry,
+                         final BindingResult errors, final ModelMap modelMap,
+                         @AuthenticationPrincipal Principal user) {
         modelMap.addAttribute("isAuth", this.getIsAuth());
+        fillModel(modelMap, user);
         // javax.validation.ValidatorFactory factory = javax.validation.Validation.buildDefaultValidatorFactory();
         // javax.validation.Validator validator = factory.getValidator();
         // System.out.println(validator.validate(entry));
         if (!errors.hasErrors()) {
-            phonesDatabase.add(entry);
+            repository.add(entry);
             modelMap.addAttribute("form", new PhoneBookEntry());
         } else {
             System.out.println(errors);
             modelMap.addAttribute("form", entry);
         }
-        modelMap.addAttribute("entries", phonesDatabase.findAll());
+        modelMap.addAttribute("entries", repository.findAll());
         return "phonebook/index";
+    }
+
+    void fillModel(ModelMap modelMap, Principal user) {
+        modelMap.addAttribute("user", user.getName());
     }
 }
